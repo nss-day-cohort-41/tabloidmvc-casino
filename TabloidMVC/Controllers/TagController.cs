@@ -19,7 +19,7 @@ namespace TabloidMVC.Controllers
             _tagRepository = tagRepository;
         }
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
             var tags = _tagRepository.GetAllTags();
             return View(tags);
