@@ -26,7 +26,12 @@ namespace TabloidMVC.Controllers
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Category category = _categoryRepo.GetCategoryById(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
         }
 
         // GET: CategoryController/Create
@@ -75,21 +80,24 @@ namespace TabloidMVC.Controllers
         // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Category category = _categoryRepo.GetCategoryById(id);
+            return View(category);
         }
 
         // POST: CategoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Category category)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _categoryRepo.DeleteCategory(id);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                return View(category);
             }
         }
     }
