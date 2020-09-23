@@ -1,0 +1,26 @@
+﻿@model IEnumerable<TabloidMVC.Models.Tag>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container pt-5">
+    <h1>Tags</h1>
+
+    <p>
+        <a class="btn btn-primary" asp-action="Create">New Tag</a>
+    </p>
+
+    <div class="">
+        @foreach (var item in Model)
+        {
+            <span class="badge badge-pill badge-info m-1 p-2">
+                <span class="text-uppercase mx-1">@item.Name</span>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="text-light p-1" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="text-light p-1" title="Delete"><i class="fas fa-trash"></i></a>
+            </span>
+        }
+
+    </div>
+</div>
