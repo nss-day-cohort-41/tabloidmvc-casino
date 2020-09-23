@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
+using System;
 using System.Security.Claims;
+using TabloidMVC.Models;
 using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
 
@@ -25,19 +27,34 @@ namespace TabloidMVC.Controllers
             return View(tags);
         }
 
-        public ActionResult DeleteTag(int id)
+        public ActionResult Delete(int id)
         {
             var tags = _tagRepository.GetTagById(id);
             return View(tags);
         }
 
 
-        /*public IActionResult Create()
+        public IActionResult Create()
         {
-            var vm = new TagCreateViewModel();
-            vm.TagOptions = _categoryRepository.GetAll();
-            return View(vm);
-        }*/
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Tag tag)
+        {
+            try
+            {
+                _tagRepository.AddTag(tag);
+
+                return RedirectToAction("Index");
+            }
+
+            catch (Exception ex)
+            {
+                return View(tag);
+            }
+        }
+
 
         /*[HttpPost]
         public IActionResult Create(TagCreateViewModel vm)
