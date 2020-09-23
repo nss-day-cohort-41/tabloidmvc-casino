@@ -25,6 +25,13 @@ namespace TabloidMVC.Controllers
             return View(tags);
         }
 
+        public ActionResult DeleteTag(int id)
+        {
+            var tags = _tagRepository.GetTagById(id);
+            return View(tags);
+        }
+
+
         /*public IActionResult Create()
         {
             var vm = new TagCreateViewModel();
