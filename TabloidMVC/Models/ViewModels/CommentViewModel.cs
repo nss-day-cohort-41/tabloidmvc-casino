@@ -7,7 +7,10 @@ namespace TabloidMVC.Models.ViewModels
 {
     public class CommentViewModel
     {
-       public Post post { get; set; }
+        // pulling all the data for post
+       public Post Post { get; set; }
+        // this is getting the list of comments
+       public List<Comment> Comments { get; set; }
 
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using TabloidMVC.Models;
+using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
 
 namespace TabloidMVC.Controllers
 {
     public class CommentController : Controller
     {
-        
+        // this is pulling the info from the repositories 
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
         public CommentController(ICommentRepository commentRepository, IPostRepository postRepository)
@@ -16,11 +18,31 @@ namespace TabloidMVC.Controllers
             _postRepository = postRepository;
             
         }
+        //Get
+        public ActionResult PostWithComment(int id)
+        { 
+            // getting the published post by Id
+            Post post = _postRepository.GetPublishedPostById(id);
+            // getting the list of comments by post id
+            List<Comment> comments = _commentRepository.GetCommentsByPostId(post.Id);
+            // vm = new vm
+            CommentViewModel vm = new CommentViewModel()
+            {
+                //getting the post and comments?
+                Post = post,
+                Comments = comments
+            };
+            // returning the vm 
+            return View(vm);
+        }
         // GET: CommentController
         public ActionResult Index(int id)
         {
+            // this is getting the post that have been published by there id
             var post = _postRepository.GetPublishedPostById(id);
-           var comments = _commentRepository.GetAllCommentsByPostId(id);
+            // this is getting the comments by the postid 
+           var comments = _commentRepository.GetCommentsByPostId(id);
+            // this is returning the comments on that post
             return View(comments);
         }
 

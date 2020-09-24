@@ -14,8 +14,8 @@ namespace TabloidMVC.Repositories
     {
         public CommentRepository(IConfiguration config) : base(config) { }
 
-       
-        public List<Comment> GetAllCommentsByPostId(int id)
+       // this is getting the comments by postId. meaning it will show all comments tied to the post in which they are commenting on 
+        public List<Comment> GetCommentsByPostId(int id)
         {
             using (var conn = Connection)
             {
@@ -23,23 +23,18 @@ namespace TabloidMVC.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT Comment.Id, Comment.Subject, Comment.Content, Comment.CreateDateTime, Comment.PostId, Comment.UserProfileId, Post.Title AS PostTitle
+                         SELECT Id, Subject, Content, CreateDateTime, PostId, UserProfileId
                           FROM Comment 
-                          LEFT JOIN Post ON Comment.PostId = Post.Id
                           WHERE PostId = @postId
-                          ORDER BY CreateDateTime ASC
+                          ORDER BY CreateDateTime DESC
                                                   ";
                     cmd.Parameters.AddWithValue("@postId", id);
                     var reader = cmd.ExecuteReader();
                     var comments = new List<Comment>();
-                    var posts = new List<Post>();
+                  
                     while (reader.Read())
                     {
-                        posts.Add(new Post()
-                        {
-                            Title = reader.GetString(reader.GetOrdinal("Title"))
-                        });
-
+                      
                         comments.Add(new Comment()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
@@ -47,8 +42,8 @@ namespace TabloidMVC.Repositories
                             Content = reader.GetString(reader.GetOrdinal("Content")),
                             CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                             PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
-                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                            PostTitle = postTitle
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
+                            
                         });
 
                     }

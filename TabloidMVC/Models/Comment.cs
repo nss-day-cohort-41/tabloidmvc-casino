@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TabloidMVC.Models
 {
+    // these are the propertires of a comment
     public class Comment
     {
         public int Id { get; set; }
