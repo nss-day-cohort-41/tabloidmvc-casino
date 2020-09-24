@@ -131,7 +131,7 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-        public List<Post> GetUserPostByIdList( int userProfileId)
+        public List<Post> GetUserPostByIdList(int userProfileId)
         {
             using (var conn = Connection)
             {

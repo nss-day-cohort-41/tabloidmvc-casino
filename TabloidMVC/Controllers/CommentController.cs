@@ -1,29 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCore;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TabloidMVC.Models;
 using TabloidMVC.Repositories;
 
 namespace TabloidMVC.Controllers
 {
     public class CommentController : Controller
     {
-        private readonly IPostRepository _postRepository;
+        
         private readonly ICommentRepository _commentRepository;
-
-        public CommentController(ICommentRepository commentRepository, IPostRepository postRepository )
+        private readonly IPostRepository _postRepository;
+        public CommentController(ICommentRepository commentRepository, IPostRepository postRepository)
         {
             _commentRepository = commentRepository;
             _postRepository = postRepository;
             
         }
         // GET: CommentController
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            List<Comment> comments = _commentRepository.GetAllPosts
+            var post = _postRepository.GetPublishedPostById(id);
+           var comments = _commentRepository.GetAllCommentsByPostId(id);
             return View(comments);
         }
 
@@ -42,15 +39,16 @@ namespace TabloidMVC.Controllers
         // POST: CommentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Comment comment)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _commentRepository.AddComment(comment);
+                return RedirectToAction("Index");
             }
-            catch
+            catch(Exception)
             {
-                return View();
+                return View(comment);
             }
         }
 
@@ -63,7 +61,7 @@ namespace TabloidMVC.Controllers
         // POST: CommentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit()
         {
             try
             {
@@ -84,7 +82,7 @@ namespace TabloidMVC.Controllers
         // POST: CommentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete()
         {
             try
             {
