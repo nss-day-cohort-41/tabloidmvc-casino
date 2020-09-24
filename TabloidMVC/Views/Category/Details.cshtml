@@ -1,4 +1,4 @@
-﻿@model TabloidMVC.Models.Category
+﻿@model TabloidMVC.Models.ViewModels.CategoryDeleteViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -8,18 +8,17 @@
 
 <div>
     <h4>Category</h4>
-    <hr />
-    <dl class="row">
-       
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
+    <label>Category Name:</label>
+    <span>@Model.Category.Name</span>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @foreach (Post post in Model.Posts)
+    {
+        <div>
+            <label>Associated Posts:</label>
+            <span>@post.Title</span>
+        </div>
+    }
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Category.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>

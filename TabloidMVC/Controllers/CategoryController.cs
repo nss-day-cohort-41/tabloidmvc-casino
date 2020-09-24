@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TabloidMVC.Models;
+using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
 
 namespace TabloidMVC.Controllers
 {
     public class CategoryController : Controller
+   
     {
         private readonly ICategoryRepository _categoryRepo;
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly IPostRepository _postRepository;
+        public CategoryController(ICategoryRepository categoryRepository, IPostRepository postRepository)
         {
             _categoryRepo = categoryRepository;
+            _postRepository = postRepository;
         }
         // GET: CategoryController
         public ActionResult Index()
@@ -28,11 +32,15 @@ namespace TabloidMVC.Controllers
         public ActionResult Details(int id)
         {
             Category category = _categoryRepo.GetCategoryById(id);
-            if (category == null)
+            List<Post> posts = _postRepository.GetPostsByCategoryId(category.Id);
+
+            CategoryDeleteViewModel vm = new CategoryDeleteViewModel()
             {
-                return NotFound();
-            }
-            return View(category);
+                Posts = posts,
+                Category = category
+            };
+           
+            return View(vm);
         }
 
         // GET: CategoryController/Create
