@@ -21,7 +21,7 @@ namespace TabloidMVC.Controllers
             _tagRepository = tagRepository;
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var tags = _tagRepository.GetAllTags();
             return View(tags);
@@ -29,8 +29,24 @@ namespace TabloidMVC.Controllers
 
         public ActionResult Delete(int id)
         {
-            var tags = _tagRepository.GetTagById(id);
-            return View(tags);
+            Tag tag = _tagRepository.GetTagById(id);
+            return View(tag);
+        }
+
+        // POST: Tag/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, Tag tag)
+        {
+            try
+            {
+                _tagRepository.Delete(id);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View(tag);
+            }
         }
 
 
@@ -41,6 +57,35 @@ namespace TabloidMVC.Controllers
 
         [HttpPost]
         public IActionResult Create(Tag tag)
+        {
+            try
+            {
+                _tagRepository.AddTag(tag);
+
+                return RedirectToAction("Index");
+            }
+
+            catch (Exception ex)
+            {
+                return View(tag);
+            }
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Tag tag = _tagRepository.GetTagById(id);
+
+            if (tag == null)
+            {
+                return NotFound();
+            }
+
+            return View(tag);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Tag tag)
         {
             try
             {
