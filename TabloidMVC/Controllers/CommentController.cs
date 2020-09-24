@@ -39,7 +39,7 @@ namespace TabloidMVC.Controllers
         // POST: CommentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Comment comment)
+        public IActionResult Create(Comment comment)
         {
             try
             {

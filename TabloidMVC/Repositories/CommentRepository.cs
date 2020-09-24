@@ -14,6 +14,7 @@ namespace TabloidMVC.Repositories
     {
         public CommentRepository(IConfiguration config) : base(config) { }
 
+       
         public List<Comment> GetAllCommentsByPostId(int id)
         {
             using (var conn = Connection)
@@ -22,7 +23,7 @@ namespace TabloidMVC.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT Comment.Id, Comment.Subject, Comment.Content, Comment.CreateDateTime, Comment.PostId, Comment.UserProfileId
+                         SELECT Comment.Id, Comment.Subject, Comment.Content, Comment.CreateDateTime, Comment.PostId, Comment.UserProfileId, Post.Title AS PostTitle
                           FROM Comment 
                           LEFT JOIN Post ON Comment.PostId = Post.Id
                           WHERE PostId = @postId
@@ -31,8 +32,13 @@ namespace TabloidMVC.Repositories
                     cmd.Parameters.AddWithValue("@postId", id);
                     var reader = cmd.ExecuteReader();
                     var comments = new List<Comment>();
+                    var posts = new List<Post>();
                     while (reader.Read())
                     {
+                        posts.Add(new Post()
+                        {
+                            Title = reader.GetString(reader.GetOrdinal("Title"))
+                        });
 
                         comments.Add(new Comment()
                         {
@@ -41,8 +47,8 @@ namespace TabloidMVC.Repositories
                             Content = reader.GetString(reader.GetOrdinal("Content")),
                             CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                             PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
-                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
-
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            PostTitle = postTitle
                         });
 
                     }
