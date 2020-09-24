@@ -11,6 +11,7 @@ namespace TabloidMVC.Models.ViewModels
        public Post Post { get; set; }
         // this is getting the list of comments
        public List<Comment> Comments { get; set; }
-
+        public Comment Comment { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }

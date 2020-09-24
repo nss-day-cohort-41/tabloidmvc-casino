@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using TabloidMVC.Models;
 using TabloidMVC.Models.ViewModels;
@@ -12,10 +13,12 @@ namespace TabloidMVC.Controllers
         // this is pulling the info from the repositories 
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
-        public CommentController(ICommentRepository commentRepository, IPostRepository postRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+        public CommentController(ICommentRepository commentRepository, IPostRepository postRepository, IUserProfileRepository userProfileRepository)
         {
             _commentRepository = commentRepository;
             _postRepository = postRepository;
+            _userProfileRepository = userProfileRepository;
             
         }
         //Get
@@ -23,6 +26,7 @@ namespace TabloidMVC.Controllers
         { 
             // getting the published post by Id
             Post post = _postRepository.GetPublishedPostById(id);
+            UserProfile UserProfile = _userProfileRepository.GetByEmail(email);
             // getting the list of comments by post id
             List<Comment> comments = _commentRepository.GetCommentsByPostId(post.Id);
             // vm = new vm

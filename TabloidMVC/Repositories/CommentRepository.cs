@@ -31,7 +31,7 @@ namespace TabloidMVC.Repositories
                     cmd.Parameters.AddWithValue("@postId", id);
                     var reader = cmd.ExecuteReader();
                     var comments = new List<Comment>();
-                  
+                   
                     while (reader.Read())
                     {
                       
