@@ -32,15 +32,11 @@ namespace TabloidMVC.Controllers
         public ActionResult Details(int id)
         {
             Category category = _categoryRepo.GetCategoryById(id);
-            List<Post> posts = _postRepository.GetPostsByCategoryId(category.Id);
-
-            CategoryDeleteViewModel vm = new CategoryDeleteViewModel()
+            if (category == null)
             {
-                Posts = posts,
-                Category = category
-            };
-           
-            return View(vm);
+                return NotFound();
+            }
+            return View(category);
         }
 
         // GET: CategoryController/Create
@@ -94,10 +90,20 @@ namespace TabloidMVC.Controllers
 
         // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
-        {
+        { 
             Category category = _categoryRepo.GetCategoryById(id);
-            return View(category);
+            List<Post> posts = _postRepository.GetPostsByCategoryId(category.Id);
+
+            CategoryDeleteViewModel vm = new CategoryDeleteViewModel()
+            {
+                Posts = posts,
+                Category = category
+            };
+
+            return View(vm);
         }
+
+      
 
         // POST: CategoryController/Delete/5
         [HttpPost]
