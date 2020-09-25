@@ -87,6 +87,40 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+        public Comment GetCommentById(int id)
+        {
+          using (var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, PostId, UserProfileId, Subject, Content, CreateDateTime
+                    FROM Comment
+                    Where UserProfileId = @userProfileId
+                    
+                     ";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if(reader.Read())
+                    {
+                        Comment comment = new Comment()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Subject = reader.GetString(reader.GetOrdinal("Subject")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
+                        };
+                        reader.Close();
+                        return comment;
+                    }
+                    reader.Close();
+                    return null;
+                }
+           }
+        }
         public void AddComment(Comment comment)
         {
             using (var conn = Connection)
@@ -95,18 +129,55 @@ namespace TabloidMVC.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            INSERT INTO COMMENT (Subject, Content, CreateDateTime, UserProfileId, PostId)
+                            INSERT INTO COMMENT (PostId,  UserProfileId, Subject, Content, CreateDateTime, )
                              OUTPUT INSERTED.ID
                               VALUES (@Subject, @Content)";
+                    cmd.Parameters.AddWithValue("@PostId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@UserProfileId", comment.UserProfileId);
                     cmd.Parameters.AddWithValue("@Subject", comment.Subject);
                     cmd.Parameters.AddWithValue("@Content", comment.Content);
                     cmd.Parameters.AddWithValue("@CreateDateTime", comment.CreateDateTime);
-                    cmd.Parameters.AddWithValue("@PostId", comment.PostId);
-                    cmd.Parameters.AddWithValue("@UserProfileId", comment.UserProfileId);
-                    comment.Id = (int)cmd.ExecuteScalar();
+                    int id = (int)cmd.ExecuteScalar();
+
+                    comment.Id = id;
                 }
             }
-
+        }
+        public void UpdateComment(Comment comment)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Update Comment
+                                        Set
+                                          UserProfileId = @UserProfileId
+                                          Subject = @Subject
+                                          Content = @Content
+                                          Where Id = @id ";
+                    cmd.Parameters.AddWithValue("@UserProfileId", comment.UserProfileId);
+                    cmd.Parameters.AddWithValue("@Subject", comment.Subject);
+                    cmd.Parameters.AddWithValue("@Content", comment.Content);
+                    cmd.Parameters.AddWithValue("@id", comment.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public void DeleteComment(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                      Delete FROM Comment
+                                      WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

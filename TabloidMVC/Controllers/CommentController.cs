@@ -15,39 +15,50 @@ namespace TabloidMVC.Controllers
         private readonly IPostRepository _postRepository;
         private readonly IUserProfileRepository _userProfileRepository;
        
-        public CommentController(ICommentRepository commentRepository, IPostRepository postRepository, IUserProfileRepository userProfileRepository)
+        public CommentController(ICommentRepository commentRepository, IPostRepository postRepository,  IUserProfileRepository userProfileRepository )
 
         {
             _commentRepository = commentRepository;
             _postRepository = postRepository;
             _userProfileRepository = userProfileRepository;
+          
             
             
         }
         //Get
-        public ActionResult PostWithComment(int id)
+        public ActionResult PostWithComment(int id, int userProfileId)
         { 
             // getting the published post by Id
             Post post = _postRepository.GetPublishedPostById(id);
-            UserProfile userProfile = _userProfileRepository.GetUserProfileById(id);
-            
-           
+
             // getting the list of comments by post id
             List<Comment> comments = _commentRepository.GetCommentsByPostId(post.Id);
-            List<Comment> userNameComments = _commentRepository.GetCommentByUserProfileId(userProfile.Id);
-            
-           
+
+            //List <Comment> comments = _commentRepository.GetCommentByUserProfileId(userProfileId);
+
             // vm = new vm
             CommentViewModel vm = new CommentViewModel()
             {
                 //getting the post and comments?
                 Post = post,
                 Comments = comments,
-               
+
             };
+
+            //loop over the comments and get a user profile  on each comment
+            // Comment is the Type. This says for each comment in comments. Running throught the list of comments
+            foreach (Comment comment in comments){
+                //set the user profile on each comment to = the user profile you got from the data base
+                //the Data for user profile is in the class UserProfile. You have to set a var which i called user. 
+                //Then go into the userProfileRepository and getUserProfileById. Then call comment.UserProfileId to get the user
+                UserProfile user = _userProfileRepository.GetUserProfileById(comment.UserProfileId);
+                //Set user to = comment.UserProfile to get the users name
+                comment.UserProfile = user;
+            }
             // returning the vm 
             return View(vm);
         }
+
         // GET: CommentController
         public ActionResult Index(int id)
         {
