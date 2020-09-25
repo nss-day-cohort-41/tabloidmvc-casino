@@ -13,8 +13,9 @@ namespace TabloidMVC.Models
 
         [Required]
         public string Content { get; set; }
-
+        [Required(ErrorMessage ="Correct image location is required")]
         [DisplayName("Header Image URL")]
+        [Url]
         public string ImageLocation { get; set; }
 
         public DateTime CreateDateTime { get; set; }

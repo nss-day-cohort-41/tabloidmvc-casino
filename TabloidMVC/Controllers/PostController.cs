@@ -53,7 +53,7 @@ namespace TabloidMVC.Controllers
             return View(post);
         }
        */
-
+       
         public IActionResult Details(int id)
         {
             Post post = _postRepository.GetPublishedPostById(id);
