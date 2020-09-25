@@ -12,7 +12,9 @@
 <table class="table">
         <thead>
             <tr>
-                
+                <th>
+                  DisplayName
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Comment.Subject)
                 </th>
@@ -28,6 +30,9 @@
     <tbody>
 @foreach (var item in Model.Comments) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserProfile.DisplayName)
+            </td>
             
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
@@ -49,5 +54,5 @@
     </tbody>
 </table>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Post/Details/Id">Back to List</a>
 </div>

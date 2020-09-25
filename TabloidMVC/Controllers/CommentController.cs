@@ -34,7 +34,7 @@ namespace TabloidMVC.Controllers
            
             // getting the list of comments by post id
             List<Comment> comments = _commentRepository.GetCommentsByPostId(post.Id);
-            List<Comment> comments = _commentRepository.GetCommentByUserProfileId(userProfile.Id);
+            List<Comment> userNameComments = _commentRepository.GetCommentByUserProfileId(userProfile.Id);
             
            
             // vm = new vm
