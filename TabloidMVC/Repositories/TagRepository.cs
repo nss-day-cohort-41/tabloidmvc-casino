@@ -36,7 +36,7 @@ namespace TabloidMVC.Repositories
             }
         }
 
-        public Tag GetTagById(int id)
+        public Tag GetTagById(int tagId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -49,7 +49,7 @@ namespace TabloidMVC.Repositories
                         FROM Tag
                         WHERE Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@id", tagId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -110,86 +110,107 @@ namespace TabloidMVC.Repositories
 
         }
 
-       /* public Tag GetTagByPostId()
+        public void Edit(Tag tag)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                       SELECT p.Id, p.Title, p.Content, 
-                              p.ImageLocation AS HeaderImage,
-                              p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-                              p.CategoryId, p.UserProfileId,
-                              c.[Name] AS CategoryName,
-                              u.FirstName, u.LastName, u.DisplayName, 
-                              u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
-                              u.UserTypeId, 
-                              ut.[Name] AS UserTypeName
-                         FROM Post p
-                              LEFT JOIN Category c ON p.CategoryId = c.id
-                              LEFT JOIN UserProfile u ON p.UserProfileId = u.id
-                              LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
-                              AND p.id = @id";
+                            UPDATE Tag
+                            SET Name = @name
+                            WHERE Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
-                    var reader = cmd.ExecuteReader();
+                    cmd.Parameters.AddWithValue("@name", tag.Name);
+                    cmd.Parameters.AddWithValue("@id", tag.Id);
 
-                    Post post = null;
-
-                    if (reader.Read())
-                    {
-                        post = NewPostFromReader(reader);
-                    }
-
-                    reader.Close();
-
-                    return post;
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        public Tag GetTagByUserId(int id, int userProfileId)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                       SELECT p.Id, p.Title, p.Content, 
-                              p.ImageLocation AS HeaderImage,
-                              p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-                              p.CategoryId, p.UserProfileId,
-                              c.[Name] AS CategoryName,
-                              u.FirstName, u.LastName, u.DisplayName, 
-                              u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
-                              u.UserTypeId, 
-                              ut.[Name] AS UserTypeName
-                         FROM Post p
-                              LEFT JOIN Category c ON p.CategoryId = c.id
-                              LEFT JOIN UserProfile u ON p.UserProfileId = u.id
-                              LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE p.id = @id AND p.UserProfileId = @userProfileId";
+        /* public Tag GetTagByPostId()
+         {
+             using (var conn = Connection)
+             {
+                 conn.Open();
+                 using (var cmd = conn.CreateCommand())
+                 {
+                     cmd.CommandText = @"
+                        SELECT p.Id, p.Title, p.Content, 
+                               p.ImageLocation AS HeaderImage,
+                               p.CreateDateTime, p.PublishDateTime, p.IsApproved,
+                               p.CategoryId, p.UserProfileId,
+                               c.[Name] AS CategoryName,
+                               u.FirstName, u.LastName, u.DisplayName, 
+                               u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
+                               u.UserTypeId, 
+                               ut.[Name] AS UserTypeName
+                          FROM Post p
+                               LEFT JOIN Category c ON p.CategoryId = c.id
+                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
+                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+                         WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
+                               AND p.id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
-                    var reader = cmd.ExecuteReader();
+                     cmd.Parameters.AddWithValue("@id", id);
+                     var reader = cmd.ExecuteReader();
 
-                    Post post = null;
+                     Post post = null;
 
-                    if (reader.Read())
-                    {
-                        post = NewPostFromReader(reader);
-                    }
+                     if (reader.Read())
+                     {
+                         post = NewPostFromReader(reader);
+                     }
 
-                    reader.Close();
+                     reader.Close();
 
-                    return post;
-                }
-            }
-        }*/
+                     return post;
+                 }
+             }
+         }
+
+         public Tag GetTagByUserId(int id, int userProfileId)
+         {
+             using (var conn = Connection)
+             {
+                 conn.Open();
+                 using (var cmd = conn.CreateCommand())
+                 {
+                     cmd.CommandText = @"
+                        SELECT p.Id, p.Title, p.Content, 
+                               p.ImageLocation AS HeaderImage,
+                               p.CreateDateTime, p.PublishDateTime, p.IsApproved,
+                               p.CategoryId, p.UserProfileId,
+                               c.[Name] AS CategoryName,
+                               u.FirstName, u.LastName, u.DisplayName, 
+                               u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
+                               u.UserTypeId, 
+                               ut.[Name] AS UserTypeName
+                          FROM Post p
+                               LEFT JOIN Category c ON p.CategoryId = c.id
+                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
+                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+                         WHERE p.id = @id AND p.UserProfileId = @userProfileId";
+
+                     cmd.Parameters.AddWithValue("@id", id);
+                     cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
+                     var reader = cmd.ExecuteReader();
+
+                     Post post = null;
+
+                     if (reader.Read())
+                     {
+                         post = NewPostFromReader(reader);
+                     }
+
+                     reader.Close();
+
+                     return post;
+                 }
+             }
+         }*/
     }
 }
