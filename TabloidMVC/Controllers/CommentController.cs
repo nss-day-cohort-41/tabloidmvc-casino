@@ -14,11 +14,14 @@ namespace TabloidMVC.Controllers
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+       
         public CommentController(ICommentRepository commentRepository, IPostRepository postRepository, IUserProfileRepository userProfileRepository)
+
         {
             _commentRepository = commentRepository;
             _postRepository = postRepository;
             _userProfileRepository = userProfileRepository;
+            
             
         }
         //Get
@@ -26,15 +29,21 @@ namespace TabloidMVC.Controllers
         { 
             // getting the published post by Id
             Post post = _postRepository.GetPublishedPostById(id);
-            UserProfile UserProfile = _userProfileRepository.GetByEmail(email);
+            UserProfile userProfile = _userProfileRepository.GetUserProfileById(id);
+            
+           
             // getting the list of comments by post id
             List<Comment> comments = _commentRepository.GetCommentsByPostId(post.Id);
+            List<Comment> comments = _commentRepository.GetCommentByUserProfileId(userProfile.Id);
+            
+           
             // vm = new vm
             CommentViewModel vm = new CommentViewModel()
             {
                 //getting the post and comments?
                 Post = post,
-                Comments = comments
+                Comments = comments,
+               
             };
             // returning the vm 
             return View(vm);
@@ -53,6 +62,7 @@ namespace TabloidMVC.Controllers
         // GET: CommentController/Details/5
         public ActionResult Details(int id)
         {
+
             return View();
         }
 
