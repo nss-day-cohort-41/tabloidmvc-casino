@@ -170,6 +170,35 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+        public List<Post> GetPostsByCategoryId(int categoryId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT Id, Title
+                                        FROM Post
+                                        WHERE CategoryId = @categoryId";
+                    cmd.Parameters.AddWithValue("@categoryId", categoryId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    List<Post> posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        Post post = new Post()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title"))
+                        };
+                        posts.Add(post);
+                        }
+                    reader.Close();
+                    return posts;
+                }
+            }
+        }
 
 
         public void Add(Post post)
