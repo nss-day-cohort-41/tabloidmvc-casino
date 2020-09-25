@@ -89,7 +89,7 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                _tagRepository.AddTag(tag);
+                _tagRepository.Edit(tag);
 
                 return RedirectToAction("Index");
             }
