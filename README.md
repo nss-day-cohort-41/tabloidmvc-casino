@@ -21,3 +21,9 @@ Tabloid MVC will have two types of users:
 ### ERD
 
 ![Tabloid ERD](./Tabloid.png)
+
+## Contributing Authors:
+### Jonathan Riley - Categories
+### Faith Magras - Comments
+### Rob Mixon - Posts 
+### Drew Harper - Tags 
