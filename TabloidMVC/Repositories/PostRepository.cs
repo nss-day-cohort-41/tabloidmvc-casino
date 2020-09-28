@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reflection.PortableExecutable;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -170,35 +171,6 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-        public List<Post> GetPostsByCategoryId(int categoryId)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                                        SELECT Id, Title
-                                        FROM Post
-                                        WHERE CategoryId = @categoryId";
-                    cmd.Parameters.AddWithValue("@categoryId", categoryId);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    List<Post> posts = new List<Post>();
-
-                    while (reader.Read())
-                    {
-                        Post post = new Post()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Title = reader.GetString(reader.GetOrdinal("Title"))
-                        };
-                        posts.Add(post);
-                        }
-                    reader.Close();
-                    return posts;
-                }
-            }
-        }
 
 
         public void Add(Post post)
@@ -317,6 +289,50 @@ namespace TabloidMVC.Repositories
                     }
                 }
             };
+        }
+        public List<Post> GetPostsByCategoryId(int categoryId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT Id, Title
+                                        FROM Post
+                                        WHERE CategoryId = @categoryId";
+                    cmd.Parameters.AddWithValue("@categoryId", categoryId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    List<Post> posts = new List<Post>();
+                    while (reader.Read())
+                    {
+                        Post post = new Post()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title"))
+                        };
+                        posts.Add(post);
+                    }
+                    reader.Close();
+                    return posts;
+                }
+            }
+        }
+
+        public string ReadTime(string content)
+        {
+            string[] words = content.Split();
+            List<string> wordList = words.ToList();
+            int wordCount = wordList.Count();
+            int time = (wordCount / 265) + 1;
+            if(time <= 1)
+            {
+                return "Read time is: 1 minute";
+            }
+            else
+            {
+                return $"Read time is: {time} minutes";
+            }
         }
     }
 }

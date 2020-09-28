@@ -13,5 +13,6 @@ namespace TabloidMVC.Repositories
         List<Post> GetPostsByCategoryId(int categoryId);
         void UpdatePost(Post post);
         void DeletePost(int id);
+        string ReadTime(string content);
     }
 }
