@@ -26,6 +26,7 @@ namespace TabloidMVC.Controllers
         public IActionResult Index()
         {
             var posts = _postRepository.GetAllPublishedPosts();
+            
             return View(posts);
         }
 
@@ -36,6 +37,7 @@ namespace TabloidMVC.Controllers
             return View(posts);
         }
 
+       /*
         public IActionResult Details(int id)
         {
             var post = _postRepository.GetPublishedPostById(id);
@@ -49,6 +51,20 @@ namespace TabloidMVC.Controllers
                 }
             }
             return View(post);
+        }
+       */
+       
+        public IActionResult Details(int id)
+        {
+            Post post = _postRepository.GetPublishedPostById(id);
+
+            PostReadTimeViewModel vm = new PostReadTimeViewModel()
+            {
+                Post = post,
+                ReadTime = _postRepository.ReadTime(post.Content)
+            };
+
+            return View(vm);
         }
 
         public IActionResult Create()
@@ -140,6 +156,5 @@ namespace TabloidMVC.Controllers
                 return View(post);
             }
         }
-
     }
 }
