@@ -1,0 +1,28 @@
+﻿@model TabloidMVC.Models.ViewModels.TagCreateViewModel
+
+@{  
+    ViewData["Title"] = "AddTagToPost";
+}
+
+<div class="container pt-5">
+    <div calss="row"> 
+        <div class="card mx-auto" style="width: 18rem;">
+            <div class="card-body justify-content-center">
+                <form class="mt-1 card-body" asp-action="AddTagToPost">
+                    <h5 class="card-title text-center mb-3">Add Tag To Post</h5>
+                    <input asp-for="Tag.Name" class="form-control" />
+                    <span asp-validation-for="Tag.Name" class="text-danger"></span>
+                    <input type="submit" value="Add" class="btn btn-primary btn-block mt-3" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mx-auto mt-4">
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

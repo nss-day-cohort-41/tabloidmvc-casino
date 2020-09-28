@@ -14,11 +14,12 @@ namespace TabloidMVC.Controllers
     public class TagController : Controller
     {
         private readonly ITagRepository _tagRepository;
-        //private readonly ICategoryRepository _categoryRepository;
+        private readonly IPostRepository _postRepository;
 
-        public TagController(ITagRepository tagRepository)
+        public TagController(ITagRepository tagRepository, IPostRepository postRepository)
         {
             _tagRepository = tagRepository;
+            _postRepository = postRepository;
         }
 
         public IActionResult Index()
@@ -61,7 +62,6 @@ namespace TabloidMVC.Controllers
             try
             {
                 _tagRepository.AddTag(tag);
-
                 return RedirectToAction("Index");
             }
 

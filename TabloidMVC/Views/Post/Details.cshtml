@@ -10,6 +10,7 @@
             <div class="row justify-content-between">
                 <h1 class="text-secondary">Posts: @Model.Title</h1>
                 <p class="font-weight-bold d-flex align-items-end">Category: @Model.Category.Name</p>
+                <p class="font-weight-bold d-flex align-items-end">Tags: @Model.Tags</p>
             </div>
             <div class="row justify-content-between">
                 <p class="text-secondary">Written by @Model.UserProfile.DisplayName</p>
@@ -22,6 +23,7 @@
                 <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
                     <i class="fas fa-trash"></i>
                 </a>
+                <!-- Manage Tags added below -->
                 <a asp-action="ManageTags" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="ManageTags">
                     <i class="fas fa-tags"></i>
                 </a>

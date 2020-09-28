@@ -89,6 +89,61 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+
+        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        /*public void AddTagToPost(Tag tag, Post TagId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Tag (Name)
+                        OUTPUT INSERTED.ID
+                        VALUES (@name)";
+
+                    cmd.Parameters.AddWithValue("@name", tag.Name);
+
+                    tag.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }*/
+
+        /*public List<Post> GetPostsByCategoryId(int categoryId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT Id, Title
+                                        FROM Post
+                                        WHERE CategoryId = @categoryId";
+                    cmd.Parameters.AddWithValue("@categoryId", categoryId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    List<Post> posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        Post post = new Post()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title"))
+                        };
+                        posts.Add(post);
+                    }
+                    reader.Close();
+                    return posts;
+                }
+            }
+        }*/
+        // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
         public void Delete(int id)
         {
             using (SqlConnection conn = Connection)
@@ -129,6 +184,11 @@ namespace TabloidMVC.Repositories
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        public Post GetPostById(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         /* public Tag GetTagByPostId()

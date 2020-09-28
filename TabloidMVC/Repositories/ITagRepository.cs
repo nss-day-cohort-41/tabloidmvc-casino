@@ -11,8 +11,13 @@ namespace TabloidMVC.Repositories
         Tag GetTagById(int id);
         void Delete(int id);
 
-        /*Tag GetTagByPostId(int id);
+        //void DeleteTag(int tagId);
+        //void UpdateTag(Tag tag);
 
-        Tag GetTagByUserId(int id, int userProfileId);*/
+        Post GetPostById(int id);
+
+        //Tag AddTagToPost(Tag tag, Post TagId);
+
+        //Tag GetTagByUserId(int id, int userProfileId);
     }
 }
