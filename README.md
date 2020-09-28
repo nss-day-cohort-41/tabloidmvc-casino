@@ -23,7 +23,23 @@ Tabloid MVC will have two types of users:
 ![Tabloid ERD](./Tabloid.png)
 
 ## Contributing Authors:
-### Jonathan Riley - Categories
-### Faith Magras - Comments
-### Rob Mixon - Posts 
-### Drew Harper - Tags 
+### Jonathan Riley 
+- Categories
+### Faith Magras
+- Comments
+### Rob Mixon
+- Posts 
+### Drew Harper
+- Tags 
+
+## Testing Instructions 
+1. Run a git clone to pull down our source code. 
+2. Run a query of the SQL data to create tables and to insert values into them. 
+3. Execute or debug the application from Visual Studio.
+4. Login with sample admin data from the SQL. 
+5. Follow the navigation links and prompts to test functionality of application. 
+
+## Technologies used
+* C#
+* SQL / ADO.NET
+* HTML / CSS
