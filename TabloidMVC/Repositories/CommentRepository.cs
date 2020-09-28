@@ -96,8 +96,14 @@ namespace TabloidMVC.Repositories
                 {
                     cmd.CommandText = @"SELECT Id, PostId, UserProfileId, Subject, Content, CreateDateTime
                     FROM Comment
+
                     Where Id = @id"; 
                    
+
+                    Where UserProfileId = @userProfileId
+                    
+                     ";
+
                     cmd.Parameters.AddWithValue("@id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -128,7 +134,10 @@ namespace TabloidMVC.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+
                             INSERT INTO COMMENT (PostId,  UserProfileId, Subject, Content, CreateDateTime, )
+
+
                              OUTPUT INSERTED.ID
                               VALUES (@Subject, @Content)";
                     cmd.Parameters.AddWithValue("@PostId", comment.PostId);
@@ -163,7 +172,9 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-        public void DeleteComment(int commentId)
+
+
+        public void DeleteComment(int id)
         {
             using (var conn = Connection)
             {
@@ -173,7 +184,9 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"
                                       Delete FROM Comment
                                       WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@id", commentId);
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
                     cmd.ExecuteNonQuery();
                 }
             }
