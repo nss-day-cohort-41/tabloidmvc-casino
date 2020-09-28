@@ -20,10 +20,7 @@ namespace TabloidMVC.Controllers
         {
             _commentRepository = commentRepository;
             _postRepository = postRepository;
-            _userProfileRepository = userProfileRepository;
-          
-            
-            
+            _userProfileRepository = userProfileRepository;   
         }
         //Get
         public ActionResult PostWithComment(int id, int userProfileId)
@@ -42,7 +39,6 @@ namespace TabloidMVC.Controllers
                 //getting the post and comments?
                 Post = post,
                 Comments = comments,
-
             };
 
             //loop over the comments and get a user profile  on each comment
@@ -127,11 +123,8 @@ namespace TabloidMVC.Controllers
         // GET: CommentController/Delete/5
         public ActionResult Delete(int id)
         {
-
             Comment comment = _commentRepository.GetCommentById(id);
             return View(comment);
-
-
         }
 
         // POST: CommentController/Delete/5

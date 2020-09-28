@@ -9,5 +9,8 @@ namespace TabloidMVC.Models.ViewModels
     {
         public Post Post { get; set; }
         public string ReadTime { get; set; }
+
+        public Tag Tag { get; set; }
     }
+
 }

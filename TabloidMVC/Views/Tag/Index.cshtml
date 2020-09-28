@@ -8,15 +8,11 @@
 <div class="container pt-5">
     <h1>Tags <a class="btn btn-primary rounded-circle px-2 py-1" asp-action="Create"><i class="fas fa-plus"></i></a></h1> 
 
-    @*<a class="btn btn-primary" asp-action="Create">New Tag</a>*@
-    
-
-    <div class="">
+    <div>
         @foreach (var item in Model)
         {
             <span class="badge badge-pill badge-info m-1 p-2">
                 <a asp-action="Edit" asp-route-id="@item.Id" class="text-white"><span class="text-uppercase mx-1">@item.Name</span></a>
-                @*<a asp-action="Edit" asp-route-id="@item.Id" class="text-light p-1" title="Edit"><i class="fas fa-pencil-alt"></i></a>*@
                 <a asp-action="Delete" asp-route-id="@item.Id" class="text-light p-1" title="Delete"><i class="fas fa-times"></i></a>
             </span>
         }
