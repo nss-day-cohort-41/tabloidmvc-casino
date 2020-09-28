@@ -87,7 +87,7 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-        public Comment GetCommentById(int id)
+        public Comment GetCommentsById(int id)
         {
           using (var conn = Connection)
             {
