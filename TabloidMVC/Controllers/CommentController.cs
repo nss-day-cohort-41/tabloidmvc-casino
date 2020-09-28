@@ -73,7 +73,7 @@ namespace TabloidMVC.Controllers
         // GET: CommentController/Details/5
         public ActionResult Details(int id)
         {
-            Comment comment = _commentRepository.GetCommentsById(id);
+            Comment comment = _commentRepository.GetCommentById(id);
             if(comment == null)
             {
                 return NotFound();

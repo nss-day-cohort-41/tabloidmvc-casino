@@ -87,7 +87,7 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-        public Comment GetCommentsById(int id)
+        public Comment GetCommentById(int id)
         {
           using (var conn = Connection)
             {
@@ -97,12 +97,10 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"SELECT Id, PostId, UserProfileId, Subject, Content, CreateDateTime
                     FROM Comment
 
-                    Where Id = @id"; 
+                    Where Id = @id";
                    
 
-                    Where UserProfileId = @userProfileId
                     
-                     ";
 
                     cmd.Parameters.AddWithValue("@id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
