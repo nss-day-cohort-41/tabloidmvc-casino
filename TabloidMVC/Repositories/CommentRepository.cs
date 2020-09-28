@@ -96,9 +96,8 @@ namespace TabloidMVC.Repositories
                 {
                     cmd.CommandText = @"SELECT Id, PostId, UserProfileId, Subject, Content, CreateDateTime
                     FROM Comment
-                    Where UserProfileId = @userProfileId
-                    
-                     ";
+                    Where Id = @id"; 
+                   
                     cmd.Parameters.AddWithValue("@id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -164,7 +163,7 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-        public void DeleteComment(int id)
+        public void DeleteComment(int commentId)
         {
             using (var conn = Connection)
             {
@@ -174,7 +173,7 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"
                                       Delete FROM Comment
                                       WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@id", commentId);
                     cmd.ExecuteNonQuery();
                 }
             }
