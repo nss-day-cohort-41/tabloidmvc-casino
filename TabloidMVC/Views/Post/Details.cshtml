@@ -21,10 +21,13 @@
                 </a>
                 <a asp-action="PostWithComment" asp-controller="Comment" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Comment">
                     <i class="fas fa-pencil-alt"></i>
+
                 </a>
-                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
-                    <i class="fas fa-trash"></i>
-                </a>
+                <a asp-action="Create"asp-controller="Comment" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Comment">
+                    <i class="fas fa-pencil-alt"></i></a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
             </div>
         </section>
         <hr />
