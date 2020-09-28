@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using TabloidMVC.Models;
 using TabloidMVC.Utils;
 
@@ -52,6 +53,43 @@ namespace TabloidMVC.Repositories
                     return userProfile;
                 }
             }
+        }
+       public UserProfile GetUserProfileById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+               using (var cmd = conn.CreateCommand())
+               {
+                    cmd.CommandText = @"
+                         Select Id, DisplayName, FirstName, LastName, Email, CreateDateTime, ImageLocation, UserTypeId
+                         FROM UserProfile
+                         Where id = @id
+                         ";
+                    cmd.Parameters.AddWithValue("@id", id);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                     if (reader.Read())
+                    {
+                        UserProfile UserProfile = new UserProfile()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Email = reader.GetString(reader.GetOrdinal("Email")),
+                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                            DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                            UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                        };
+                        reader.Close();
+                        return UserProfile;
+
+                    }
+                    reader.Close();
+                    return null;
+
+                }
+           }
         }
     }
 }
