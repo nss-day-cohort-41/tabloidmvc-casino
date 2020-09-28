@@ -135,7 +135,7 @@ namespace TabloidMVC.Controllers
             try
             {
                 _commentRepository.DeleteComment(id);
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             catch(Exception ex)
             {
