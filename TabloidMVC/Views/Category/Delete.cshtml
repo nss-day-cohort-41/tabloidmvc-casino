@@ -4,29 +4,31 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<div class="container pt-5">
+    <h1>Delete</h1>
 
-<div>
-    <h4>Category</h4>
-    <span>@Model.Category.Name</span>
+    <div>
+        <h4>Category</h4>
+        <span>@Model.Category.Name</span>
+    </div>
+
+    @if (Model.Posts.Count == 0)
+    {
+        <form asp-action="Delete">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    }
+    else
+    {
+        @foreach (Post post in Model.Posts)
+        {
+            <h3>Note, you can not delete categories associated with post(s). Please remove the post(s) from this category to delete.</h3>
+
+            <h4>Associated Post(s)</h4>
+            <span>@post.Title</span>
+
+        }
+    }
+
 </div>
-
-@if (Model.Posts.Count == 0)
-{
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-}
-else
-{
-@foreach (Post post in Model.Posts)
-{
-    <h3>Note, you can not delete categories associated with post(s). Please remove the post(s) from this category to delete.</h3>
-
-        <h4>Associated Post(s)</h4>
-        <span>@post.Title</span>
-
-}
-}
-
