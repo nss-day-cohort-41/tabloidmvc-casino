@@ -12,8 +12,9 @@ namespace TabloidMVC.Repositories
         List <Comment> GetCommentByUserProfileId(int userProfileId);
        // List<Comment> GetCommentById(int id);
         void AddComment(Comment comment);
-       // void Edit(Comment comment);
-        //void Delete(Comment comment);
+
+        void DeleteComment(int commentId);
+        Comment GetCommentById(int id); 
 
     }
 
