@@ -7,9 +7,9 @@ namespace TabloidMVC.Models.ViewModels
 {
     public class CommentViewModel
     {
-        // pulling all the data for post
+        // this post is an Object that is a property of comment view model class. this post object represents the single post you are looking at
        public Post Post { get; set; }
-        // this is getting the list of comments
+        // all the comment are inside the list. the list is a collection of the object. they are comments that are for a single post
        public List<Comment> Comments { get; set; }
         public Comment Comment { get; set; }
        public UserProfile UserProfile { get; set; }

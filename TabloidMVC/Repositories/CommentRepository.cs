@@ -96,12 +96,8 @@ namespace TabloidMVC.Repositories
                 {
                     cmd.CommandText = @"SELECT Id, PostId, UserProfileId, Subject, Content, CreateDateTime
                     FROM Comment
-
                     Where Id = @id";
                    
-
-                    
-
                     cmd.Parameters.AddWithValue("@id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
 

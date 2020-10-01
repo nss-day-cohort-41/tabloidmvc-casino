@@ -84,7 +84,13 @@ namespace TabloidMVC.Controllers
         // GET: CommentController/Create
         public ActionResult Create()
         {
-            return View();
+            List<Post> posts = _postRepository.GetAllPublishedPosts();
+            CommentFormViewModel vm = new CommentFormViewModel()
+            {
+                Comment = new Comment(),
+                Posts = posts
+            };
+            return View(vm);
         }
 
         // POST: CommentController/Create
